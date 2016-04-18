@@ -1,3 +1,23 @@
+This is going to build a Kubernetes cluster on AWS, powered by VMTurbo.
+
+Please make sure you have VMTurbo server running in your AWS account, reachable by your k8s controller.
+
+Please follow the instruction of using kube-aws, once the cluster is up and running on AWS, please mount the following contents to /etc/kubeturbo/config
+
+{
+        "serveraddress":      "<Your_VMTurbo_IP>:80",
+        "targettype":   "Kubernetes",
+        "nameoraddress":  "k8s_vmt",
+        "username":"kubernetes_user",
+        "targetidentifier": "my_k8s",
+        "password":"kubernetes_password",
+        "localaddress":"<Your master IP>",
+        "websocketusername": "vmtRemoteMediation",
+        "websocketpassword": "vmtRemoteMediation",
+        "opsmanagerusername": "<Your VMTurbo username>",
+        "opsmanagerpassword": "<Your VMTurbo password>"
+}
+
 # Kubernetes on AWS
 
 This is the source of the `kube-aws` tool and the installation artifacts used by the official Kubernetes on AWS documentation.
