@@ -283,30 +283,35 @@ write_files:
             path: /usr/share/ca-certificates
           name: ssl-certs-host
 
-  - path: /etc/kubernetes/manifests/kube-scheduler.yaml
+  - path: /etc/kubernetes/manifests/kubeturbo.yaml
     content: |
       apiVersion: v1
       kind: Pod
       metadata:
-        name: kube-scheduler
+        name: kubeturbo
         namespace: kube-system
       spec:
         hostNetwork: true
         containers:
-        - name: kube-scheduler
-          image: {{.HyperkubeImageRepo}}:{{.K8sVer}}
+        - name: kubeturbo
+          image: vmturbo/kubeturbo:0.9
           command:
-          - /hyperkube
-          - scheduler
-          - --master=http://127.0.0.1:8080
-          livenessProbe:
-            httpGet:
-              host: 127.0.0.1
-              path: /healthz
-              port: 10251
-            initialDelaySeconds: 15
-            timeoutSeconds: 1
-
+          - /bin/kubeturbo
+      args:
+        - --v=3
+        - --master=127.0.0.1:8080
+        - --etcd-servers=http://127.0.0.1:2379
+        - --config-path=/etc/kubeturbo/config
+      volumeMounts:
+      - name: vmt-config
+        mountPath: /etc/kubeturbo
+        readOnly: true
+      volumes:
+      - name: vmt-config
+        hostPath:
+          path: /etc/kubeturbo
+      restartPolicy: Always
+  
   - path: /srv/kubernetes/manifests/kube-system.json
     content: |
         {
