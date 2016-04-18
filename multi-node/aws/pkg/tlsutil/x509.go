@@ -106,7 +106,7 @@ func NewSignedClientCertificate(cfg ClientCertConfig, key *rsa.PrivateKey, caCer
 		IPAddresses:  ips,
 		SerialNumber: serial,
 		NotBefore:    caCert.NotBefore,
-		NotAfter:     time.Now().Add(Duration90d).UTC(),
+		NotAfter:     time.Now().Add(Duration365d).UTC(),
 		KeyUsage:     x509.KeyUsageKeyEncipherment | x509.KeyUsageDigitalSignature,
 		ExtKeyUsage:  []x509.ExtKeyUsage{x509.ExtKeyUsageClientAuth},
 	}
